@@ -16,7 +16,6 @@ Thumbs.db
 logs/
 
 # Cache files
-cache.bin
 *.cache
 
 # Temporary files
