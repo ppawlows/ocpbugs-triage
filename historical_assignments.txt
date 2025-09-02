@@ -1,0 +1,26 @@
+OCPBUGS Historical Pattern Analysis - August 28, 2025
+
+Query: project = OCPBUGS AND status in (NEW, POST, ASSIGNED) AND component = security
+Issues Found: 10 total
+
+CVE-2025-4598 Pattern Analysis:
+- Keywords: systemd, race condition, SUID, local attacker
+- Affected versions: OpenShift 4.12.z through 4.20
+- Technical scope: Node-level system service management
+- Component assignment: Machine Config Operator
+- Rationale: MCO manages systemd services and node-level configurations
+- Issues: OCPBUGS-59441, 59440, 59439, 59438, 59437, 59436, 59435, 59434, 59433
+
+CVE-2025-22871 Pattern Analysis:
+- Keywords: golang, builder, container, net/http, request smuggling
+- Affected versions: OpenShift 4.13.z
+- Technical scope: Container building infrastructure
+- Component assignment: Build
+- Rationale: Build component handles container building and S2I
+- Issues: OCPBUGS-58173
+
+Historical Research Results:
+- systemd keyword search found issues in Installer and Networking components
+- golang builder keyword search found issues in Containers component
+- Component validation: Both recommended components exist in verified CSV
+- Assignment confidence: High (clear component descriptions match issue content)
