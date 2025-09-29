@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCPBUGS Triaging Report - September 25, 2025</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #0066cc;
+            border-bottom: 3px solid #0066cc;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #333;
+            margin-top: 30px;
+            border-left: 4px solid #0066cc;
+            padding-left: 15px;
+        }
+        h3 {
+            color: #555;
+            margin-top: 25px;
+        }
+        .executive-summary {
+            background-color: #e7f3ff;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+        .stat-box {
+            display: inline-block;
+            background-color: #0066cc;
+            color: white;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        .issue-key {
+            font-family: monospace;
+            font-weight: bold;
+            color: #0066cc;
+        }
+        .component-current {
+            background-color: #ffebee;
+            padding: 5px;
+            border-radius: 3px;
+            color: #c62828;
+        }
+        .component-recommended {
+            background-color: #e8f5e8;
+            padding: 5px;
+            border-radius: 3px;
+            color: #2e7d32;
+            font-weight: bold;
+        }
+        .confidence-high {
+            color: #2e7d32;
+            font-weight: bold;
+        }
+        .confidence-medium {
+            color: #f57c00;
+            font-weight: bold;
+        }
+        .confidence-low {
+            color: #d32f2f;
+            font-weight: bold;
+        }
+        .rationale {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-left: 3px solid #0066cc;
+            margin: 5px 0;
+            font-size: 0.9em;
+        }
+        .command-box {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        .cve-details {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .warning {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 OCPBUGS Automated Triaging Report</h1>
+        <p><strong>Generated:</strong> September 25, 2025</p>
+        <p><strong>Report ID:</strong> TRIAGE-20250925-001</p>
+
+        <div class="executive-summary">
+            <h2>📊 Executive Summary</h2>
+            <div class="stat-box">9 Issues Analyzed</div>
+            <div class="stat-box">1 Component Recommended</div>
+            <div class="stat-box">100% Confidence</div>
+            <div class="stat-box">CVE-2025-59343</div>
+
+            <p><strong>Key Findings:</strong> All 9 analyzed issues are identical CVE tracking tickets for the same vulnerability (CVE-2025-59343) affecting the OpenShift Console component. These issues should be reassigned from the generic "Security" component to the specific "Management Console" component based on established patterns and component ownership.</p>
+        </div>
+
+        <h2>🔍 Issue Analysis Results</h2>
+
+        <div class="cve-details">
+            <h3>CVE-2025-59343: tar-fs symlink validation bypass</h3>
+            <p><strong>Affected Component:</strong> openshift4/ose-console-rhel9</p>
+            <p><strong>Description:</strong> tar-fs provides filesystem bindings for tar-stream. Versions prior to 3.1.1, 2.1.3, and 1.16.5 are vulnerable to symlink validation bypass if the destination directory is predictable with a specific tarball.</p>
+            <p><strong>Patched Versions:</strong> 3.1.1, 2.1.4, and 1.16.6</p>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Issue Key</th>
+                    <th>Summary</th>
+                    <th>Current Component</th>
+                    <th>Recommended Component</th>
+                    <th>Confidence</th>
+                    <th>Rationale</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="issue-key"><a href="https://issues.redhat.com/browse/OCPBUGS-62194" target="_blank">OCPBUGS-62194</a></td>
+                    <td>CVE-2025-59343 openshift4/ose-console-rhel9: tar-fs symlink validation bypass [openshift-4.17]</td>
+                    <td><span class="component-current">Security</span></td>
+                    <td><span class="component-recommended">Management Console</span></td>
+                    <td><span class="confidence-high">HIGH</span></td>
+                    <td class="rationale">
+                        <strong>Technical Context:</strong> This CVE affects the openshift4/ose-console-rhel9 container, which is the OpenShift web console component.<br>
+                        <strong>Component Ownership:</strong> The Management Console component owns "The web console for OpenShift" according to the official component descriptions.<br>
+                        <strong>Pattern Consistency:</strong> CVE-2024-6538 (OCPBUGS-61300), another console CVE, was correctly assigned to Management Console.<br>
+                        <strong>OpenShift Architecture:</strong> Console security vulnerabilities belong with the console team, not generic security.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="issue-key"><a href="https://issues.redhat.com/browse/OCPBUGS-62193" target="_blank">OCPBUGS-62193</a></td>
+                    <td>CVE-2025-59343 openshift4/ose-console-rhel9: tar-fs symlink validation bypass [openshift-4.19]</td>
+                    <td><span class="component-current">Security</span></td>
+                    <td><span class="component-recommended">Management Console</span></td>
+                    <td><span class="confidence-high">HIGH</span></td>
+                    <td class="rationale">Identical issue to OCPBUGS-62194 for different OpenShift version.</td>
+                </tr>
+                <tr>
+                    <td class="issue-key"><a href="https://issues.redhat.com/browse/OCPBUGS-62192" target="_blank">OCPBUGS-62192</a></td>
+                    <td>CVE-2025-59343 openshift4/ose-console-rhel9: tar-fs symlink validation bypass [openshift-4.16.z]</td>
+                    <td><span class="component-current">Security</span></td>
+                    <td><span class="component-recommended">Management Console</span></td>
+                    <td><span class="confidence-high">HIGH</span></td>
+                    <td class="rationale">Identical issue to OCPBUGS-62194 for different OpenShift version.</td>
+                </tr>
+                <tr>
+                    <td class="issue-key"><a href="https://issues.redhat.com/browse/OCPBUGS-62191" target="_blank">OCPBUGS-62191</a></td>
+                    <td>CVE-2025-59343 openshift4/ose-console-rhel9: tar-fs symlink validation bypass [openshift-4.13.z]</td>
+                    <td><span class="component-current">Security</span></td>
+                    <td><span class="component-recommended">Management Console</span></td>
+                    <td><span class="confidence-high">HIGH</span></td>
+                    <td class="rationale">Identical issue to OCPBUGS-62194 for different OpenShift version.</td>
+                </tr>
+                <tr>
+                    <td class="issue-key"><a href="https://issues.redhat.com/browse/OCPBUGS-62190" target="_blank">OCPBUGS-62190</a></td>
+                    <td>CVE-2025-59343 openshift4/ose-console-rhel9: tar-fs symlink validation bypass [openshift-4.12.z]</td>
+                    <td><span class="component-current">Security</span></td>
+                    <td><span class="component-recommended">Management Console</span></td>
+                    <td><span class="confidence-high">HIGH</span></td>
+                    <td class="rationale">Identical issue to OCPBUGS-62194 for different OpenShift version.</td>
+                </tr>
+                <tr>
+                    <td class="issue-key"><a href="https://issues.redhat.com/browse/OCPBUGS-62189" target="_blank">OCPBUGS-62189</a></td>
+                    <td>CVE-2025-59343 openshift4/ose-console-rhel9: tar-fs symlink validation bypass [openshift-4.15.z]</td>
+                    <td><span class="component-current">Security</span></td>
+                    <td><span class="component-recommended">Management Console</span></td>
+                    <td><span class="confidence-high">HIGH</span></td>
+                    <td class="rationale">Identical issue to OCPBUGS-62194 for different OpenShift version.</td>
+                </tr>
+                <tr>
+                    <td class="issue-key"><a href="https://issues.redhat.com/browse/OCPBUGS-62188" target="_blank">OCPBUGS-62188</a></td>
+                    <td>CVE-2025-59343 openshift4/ose-console-rhel9: tar-fs symlink validation bypass [openshift-4.20]</td>
+                    <td><span class="component-current">Security</span></td>
+                    <td><span class="component-recommended">Management Console</span></td>
+                    <td><span class="confidence-high">HIGH</span></td>
+                    <td class="rationale">Identical issue to OCPBUGS-62194 for different OpenShift version.</td>
+                </tr>
+                <tr>
+                    <td class="issue-key"><a href="https://issues.redhat.com/browse/OCPBUGS-62187" target="_blank">OCPBUGS-62187</a></td>
+                    <td>CVE-2025-59343 openshift4/ose-console-rhel9: tar-fs symlink validation bypass [openshift-4.14.z]</td>
+                    <td><span class="component-current">Security</span></td>
+                    <td><span class="component-recommended">Management Console</span></td>
+                    <td><span class="confidence-high">HIGH</span></td>
+                    <td class="rationale">Identical issue to OCPBUGS-62194 for different OpenShift version.</td>
+                </tr>
+                <tr>
+                    <td class="issue-key"><a href="https://issues.redhat.com/browse/OCPBUGS-62186" target="_blank">OCPBUGS-62186</a></td>
+                    <td>CVE-2025-59343 openshift4/ose-console-rhel9: tar-fs symlink validation bypass [openshift-4.18]</td>
+                    <td><span class="component-current">Security</span></td>
+                    <td><span class="component-recommended">Management Console</span></td>
+                    <td><span class="confidence-high">HIGH</span></td>
+                    <td class="rationale">Identical issue to OCPBUGS-62194 for different OpenShift version.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>📈 Component Assignment Statistics</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Component</th>
+                    <th>Current Assignments</th>
+                    <th>Recommended Assignments</th>
+                    <th>Net Change</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Security</td>
+                    <td>9</td>
+                    <td>0</td>
+                    <td>-9</td>
+                </tr>
+                <tr>
+                    <td>Management Console</td>
+                    <td>0</td>
+                    <td>9</td>
+                    <td>+9</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>🎯 Quality Metrics</h2>
+
+        <div class="success">
+            <h3>✅ High Confidence Assignments: 9/9 (100%)</h3>
+            <p>All component assignments have high confidence based on:</p>
+            <ul>
+                <li>Clear component ownership boundaries</li>
+                <li>Consistent with historical CVE assignment patterns</li>
+                <li>Technical context directly maps to component responsibilities</li>
+                <li>Verified against official OCPBUGS component descriptions</li>
+            </ul>
+        </div>
+
+        <h2>🔍 Pattern Analysis</h2>
+
+        <h3>Console Component Assignment Patterns</h3>
+        <p>Based on analysis of existing console-related issues:</p>
+        <ul>
+            <li><strong>Functional Issues:</strong> Console crashes, plugin problems, UI bugs → <code>Management Console</code></li>
+            <li><strong>Security Issues:</strong> Console CVEs, SSRF vulnerabilities → <code>Management Console</code></li>
+            <li><strong>Authentication Issues:</strong> OAuth, OIDC console login problems → <code>Management Console</code></li>
+        </ul>
+
+        <h3>CVE Assignment Consistency</h3>
+        <p>Historical console CVE assignments confirm the pattern:</p>
+        <ul>
+            <li>CVE-2024-6538 (OCPBUGS-61300): OpenShift Console SSRF → <code>Management Console</code></li>
+            <li>CVE-2025-9288 (OCPBUGS-60740+): Console hash manipulation → <code>Management Console</code></li>
+            <li>CVE-2025-9287 (OCPBUGS-60719+): Console cipher-base hash → <code>Management Console</code></li>
+        </ul>
+
+        <h2>⚡ Implementation Commands</h2>
+
+        <div class="warning">
+            <h3>⚠️ Important Notice</h3>
+            <p>The following commands are provided for reference only. <strong>DO NOT execute these commands</strong> without proper authorization and review. This automation system generates recommendations but does not automatically modify JIRA tickets.</p>
+        </div>
+
+        <h3>JIRA CLI Commands to Apply Component Assignments</h3>
+
+        <div class="command-box">
+# Assign all CVE-2025-59343 console issues to Management Console component
+
+jira issue edit OCPBUGS-62194 --custom component="Management Console" --no-input
+jira issue edit OCPBUGS-62193 --custom component="Management Console" --no-input
+jira issue edit OCPBUGS-62192 --custom component="Management Console" --no-input
+jira issue edit OCPBUGS-62191 --custom component="Management Console" --no-input
+jira issue edit OCPBUGS-62190 --custom component="Management Console" --no-input
+jira issue edit OCPBUGS-62189 --custom component="Management Console" --no-input
+jira issue edit OCPBUGS-62188 --custom component="Management Console" --no-input
+jira issue edit OCPBUGS-62187 --custom component="Management Console" --no-input
+jira issue edit OCPBUGS-62186 --custom component="Management Console" --no-input
+        </div>
+
+        <h3>Batch Command (Alternative)</h3>
+        <div class="command-box">
+# Process all CVE-2025-59343 issues in a single command
+for issue in OCPBUGS-62194 OCPBUGS-62193 OCPBUGS-62192 OCPBUGS-62191 OCPBUGS-62190 OCPBUGS-62189 OCPBUGS-62188 OCPBUGS-62187 OCPBUGS-62186; do
+    echo "Updating $issue..."
+    jira issue edit $issue --custom component="Management Console" --no-input
+done
+        </div>
+
+        <h2>📋 Recommendations for Process Improvement</h2>
+
+        <ol>
+            <li><strong>Automated CVE Routing:</strong> Consider implementing automated component assignment for CVE tracking issues based on the affected product component (pscomponent field).</li>
+            <li><strong>Component Validation:</strong> Add validation rules to prevent assignment of product-specific CVEs to the generic "Security" component.</li>
+            <li><strong>Pattern Documentation:</strong> Document the established patterns for console-related issue assignment to ensure consistency.</li>
+            <li><strong>Training:</strong> Provide guidance to security team on initial component assignment for CVE tracking issues.</li>
+        </ol>
+
+        <h2>🔄 Next Steps</h2>
+
+        <ol>
+            <li>Review and approve the component assignments in this report</li>
+            <li>Execute the JIRA CLI commands to update the component assignments</li>
+            <li>Verify the assignments were applied correctly</li>
+            <li>Update any related workflows or documentation</li>
+            <li>Monitor for similar patterns in future CVE issues</li>
+        </ol>
+
+        <div class="success">
+            <h3>✅ Triaging Complete</h3>
+            <p>All 9 issues have been analyzed and appropriate component assignments determined with high confidence. The recommendations align with established patterns and component ownership boundaries.</p>
+        </div>
+
+        <hr>
+        <p><small><em>Generated by OCPBUGS Automated Triaging System v1.0 | Report ID: TRIAGE-20250925-001 | Execution Time: ~5 minutes</em></small></p>
+    </div>
+</body>
+</html>

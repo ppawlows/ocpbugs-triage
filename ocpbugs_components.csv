@@ -34,7 +34,6 @@ Component Name,Description
 "Cluster Loader","Extended test component used to load OCP cluster with large number of objects"
 "Cluster Resource Override Admission Operator","The Cluster Resource Override Admission Operator manages OpenShift ClusterResourceOverride Admission Webhook Server"
 "Cluster Version Operator","Top level operator that coordinates OpenShift upgrades. Bugs in specific operators that are blocking upgrades should be filed against their respective component."
-"Compliance Operator","Operator providing OpenShift cluster compliance checks"
 "Console Kubevirt Plugin","OpenShift Console plugin which enables capabilities for virtual machine management and monitoring"
 "Console Metal3 Plugin","OpenShift Console plugin which enables capabilities for bare metal management and monitoring"
 "Console Storage Plugin","Bugs related to the add-on OpenShift Container Storage functionality in the Console"
