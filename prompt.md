@@ -47,8 +47,10 @@ For all untriaged issues:
 **HARD REQUIREMENT**: You MUST generate these files on every run:
 
 1. **HTML Report** (`triaging_report_YYYYMMDD.html`) containing:
-   - List of all analyzed issues and links to them
-   - Component assignments with technical rationale
+   - List of all analyzed issues with **direct JIRA links** to each issue
+   - Component assignments with **detailed technical rationale** explaining why each specific component was chosen
+   - **Research sources and links** - document which similar JIRA issues or queries were used to inform each decision
+   - **Decision trail** - clear documentation of the analysis process for each issue
    - Summary statistics and patterns
    - Recommendations for process improvement
    - Suggested JIRA commands to execute for component assignments
@@ -91,16 +93,33 @@ For all untriaged issues:
 
 Generate an HTML report with:
 1. **Executive Summary** - Total issues processed, component distribution
-2. **Issue Analysis Table** - Each issue with current/recommended component and rationale
-3. **Component Usage Statistics** - Most common assignments and patterns
-4. **Quality Metrics** - Assignment confidence levels and review flags
-5. **Implementation Commands** - JIRA CLI commands to apply assignments
+2. **Issue Analysis Table** - For each issue include:
+   - **Issue Key with Direct JIRA Link** (e.g., [OCPBUGS-12345](https://issues.redhat.com/browse/OCPBUGS-12345))
+   - **Issue Summary** (truncated to 100 chars if needed)
+   - **Current Component** (what it's assigned to now)
+   - **Recommended Component** (your assignment recommendation)
+   - **Technical Rationale** (detailed explanation why this component fits)
+   - **Research Sources** (links to similar issues or queries used to inform decision)
+   - **Confidence Level** (High/Medium/Low)
+3. **Research Documentation** - For each analyzed issue, document:
+   - Which historical issues were found and analyzed
+   - What JIRA queries were used to research similar cases
+   - Links to the source issues that informed the decision
+4. **Component Usage Statistics** - Most common assignments and patterns
+5. **Quality Metrics** - Assignment confidence levels and review flags
+6. **Implementation Commands** - JIRA CLI commands to apply assignments
 
 ## Begin Triaging
 
 Start by querying for untriaged OCPBUGS issues and analyze them for component assignment. Focus on technical accuracy and clear ownership mapping.
 
-**MANDATORY OUTPUT**: Every triaging run MUST produce:
-1. `triaging_report_YYYYMMDD.html` - Comprehensive analysis report
+**MANDATORY RESEARCH PROCESS**: For each issue you analyze:
+1. **Document your research queries** - save all JIRA queries used to find similar issues
+2. **Record source issues** - list specific issues that informed your decision with links
+3. **Explain the connection** - clearly describe how the research sources relate to your assignment decision
+4. **Include confidence assessment** - rate your confidence based on the strength of research evidence
 
-Remember: Your goal is to route issues to the right engineering teams efficiently while maintaining high assignment quality.
+**MANDATORY OUTPUT**: Every triaging run MUST produce:
+1. `triaging_report_YYYYMMDD.html` - Comprehensive analysis report with complete research documentation
+
+Remember: Your goal is to route issues to the right engineering teams efficiently while maintaining high assignment quality and full transparency in the decision-making process.

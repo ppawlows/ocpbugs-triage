@@ -50,8 +50,15 @@ Claude applies OpenShift knowledge-based component assignment:
 
 **1. HTML Triaging Report** (`triaging_report_YYYYMMDD.html`):
 - **Executive summary** of issues processed
-- **Detailed analysis table** with current vs. recommended components
-- **Technical rationale** for each assignment decision and for each individual issue.
+- **Detailed analysis table** with current vs. recommended components including:
+  - Direct JIRA links to each analyzed issue
+  - Detailed technical rationale for each assignment decision
+  - Research sources and links to similar issues used for decision-making
+  - Confidence levels based on research evidence strength
+- **Research documentation** section documenting the analysis process:
+  - JIRA queries used to find similar historical issues
+  - Links to specific source issues that informed decisions
+  - Clear explanations of how research sources relate to assignment decisions
 - **Component statistics** and usage patterns
 - **Quality metrics** and confidence levels
 - **Suggested JIRA commands** for manual execution
@@ -140,8 +147,12 @@ cat prompt.md | claude
 ### Successful Automation Run
 - ✅ Issues queried and analyzed successfully
 - ✅ HTML report generated with clear recommendations
+- ✅ All analyzed issues include direct JIRA links
 - ✅ All suggested components validated against CSV
-- ✅ Technical rationale provided for each assignment
+- ✅ Technical rationale provided for each assignment with detailed explanations
+- ✅ Research sources documented with links to supporting similar issues
+- ✅ JIRA queries used for research are documented and reproducible
+- ✅ Confidence levels assigned based on research evidence strength
 - ✅ Ready-to-execute JIRA commands provided (for manual use)
 
 ### Manual Follow-up Required
@@ -189,9 +200,12 @@ After Claude completes the automation:
 - Monitor assignment feedback for pattern improvement
 
 ### Quality Control
-- Claude provides confidence scores for each assignment
+- Claude provides confidence scores for each assignment based on research evidence
 - Complex or uncertain cases are flagged for manual review
-- All decisions include detailed technical rationale
+- All decisions include detailed technical rationale with supporting evidence
+- Research sources are documented with direct links to similar JIRA issues
+- JIRA queries used for research are saved and reproducible
 - Assignment consistency is maintained across similar issues
+- Decision-making process is fully transparent and auditable
 
 This workflow ensures efficient, accurate OCPBUGS component assignment while maintaining full human control over JIRA modifications.
