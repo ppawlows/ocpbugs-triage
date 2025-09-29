@@ -56,18 +56,18 @@ Claude applies OpenShift knowledge-based component assignment:
 **1. HTML Triaging Report** (`triaging_report_YYYYMMDD.html`):
 - **Executive summary** of issues processed
 - **Detailed analysis table** with current vs. recommended components including:
-  - Direct JIRA links to each analyzed issue
-  - CVE ID and links to CVE database details (if present)
+  - **MANDATORY**: Clickable direct JIRA links to each analyzed issue (https://issues.redhat.com/browse/ISSUE-KEY)
+  - **MANDATORY**: CVE ID and direct links to authoritative CVE database sources (MITRE, NVD)
+  - **MANDATORY**: Direct links to all research sources and supporting documentation
   - CVE technical summary and affected components
   - Detailed technical rationale for each assignment decision incorporating CVE analysis
   - Research sources and links to similar issues used for decision-making
   - Confidence levels based on research evidence strength and CVE context
 - **Research documentation** section documenting the analysis process:
-  - CVE database sources and links used for vulnerability analysis
+  - **MANDATORY**: CVE database sources and direct links used for vulnerability analysis
   - JIRA queries used to find similar historical issues
-  - Links to specific source issues that informed decisions
+  - **MANDATORY**: Clickable links to all specific source issues that informed decisions
   - Clear explanations of how CVE analysis and research sources relate to assignment decisions
-- **Component statistics** and usage patterns
 - **Quality metrics** and confidence levels
 - **Suggested JIRA commands** for manual execution
 

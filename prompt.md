@@ -55,11 +55,12 @@ For all untriaged issues:
 **HARD REQUIREMENT**: You MUST generate these files on every run:
 
 1. **HTML Report** (`triaging_report_YYYYMMDD.html`) containing:
-   - List of all analyzed issues with **direct JIRA links** to each issue
+   - **MANDATORY DIRECT LINKS**: Every analyzed issue MUST include clickable direct JIRA link (https://issues.redhat.com/browse/ISSUE-KEY)
+   - **MANDATORY CVE LINKS**: Every CVE mentioned MUST include direct links to authoritative sources (MITRE CVE database, NVD)
+   - **MANDATORY SOURCE LINKS**: All research sources, similar JIRA issues, and supporting documentation MUST be linked
    - Component assignments with **detailed technical rationale** explaining why each specific component was chosen
    - **Research sources and links** - document which similar JIRA issues or queries were used to inform each decision
    - **Decision trail** - clear documentation of the analysis process for each issue
-   - Summary statistics and patterns
    - Recommendations for process improvement
    - Suggested JIRA commands to execute for component assignments
 
@@ -103,21 +104,20 @@ For all untriaged issues:
 Generate an HTML report with:
 1. **Executive Summary** - Total issues processed, component distribution
 2. **Issue Analysis Table** - For each issue include:
-   - **Issue Key with Direct JIRA Link** (e.g., [OCPBUGS-12345](https://issues.redhat.com/browse/OCPBUGS-12345))
+   - **Issue Key with Direct JIRA Link** (e.g., [OCPBUGS-12345](https://issues.redhat.com/browse/OCPBUGS-12345)) - MANDATORY clickable link
    - **Issue Summary** (truncated to 100 chars if needed)
-   - **CVE ID and Link** (if present, with direct link to CVE database)
+   - **CVE ID and Link** (if present, MANDATORY direct link to CVE database like https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-YYYY-NNNN)
    - **CVE Summary** (brief technical description from CVE database)
    - **Current Component** (what it's assigned to now)
    - **Recommended Component** (your assignment recommendation)
    - **Technical Rationale** (detailed explanation why this component fits, incorporating CVE analysis)
-   - **Research Sources** (links to similar issues or queries used to inform decision)
+   - **Research Sources** (MANDATORY links to similar issues or queries used to inform decision)
    - **Confidence Level** (High/Medium/Low)
 3. **Research Documentation** - For each analyzed issue, document:
-   - Which historical issues were found and analyzed
+   - Which historical issues were found and analyzed with MANDATORY direct links
    - What JIRA queries were used to research similar cases
-   - Links to the source issues that informed the decision
-4. **Component Usage Statistics** - Most common assignments and patterns
-5. **Quality Metrics** - Assignment confidence levels and review flags
+   - MANDATORY clickable links to all source issues that informed the decision
+4. **Quality Metrics** - Assignment confidence levels and review flags
 6. **Implementation Commands** - JIRA CLI commands to apply assignments
 
 ## Begin Triaging
