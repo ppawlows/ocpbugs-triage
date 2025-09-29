@@ -51,7 +51,7 @@ Claude applies OpenShift knowledge-based component assignment:
 **1. HTML Triaging Report** (`triaging_report_YYYYMMDD.html`):
 - **Executive summary** of issues processed
 - **Detailed analysis table** with current vs. recommended components
-- **Technical rationale** for each assignment decision
+- **Technical rationale** for each assignment decision and for each individual issue.
 - **Component statistics** and usage patterns
 - **Quality metrics** and confidence levels
 - **Suggested JIRA commands** for manual execution
