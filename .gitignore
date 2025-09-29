@@ -17,6 +17,7 @@ logs/
 
 # Cache files
 *.cache
+cache.bin
 
 # Temporary files
 *.tmp

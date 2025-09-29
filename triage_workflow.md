@@ -30,14 +30,12 @@ For each issue found, Claude:
 
 ### Step 4: Claude Researches Historical Patterns (READ-ONLY)
 Claude analyzes similar resolved issues to learn assignment patterns:
-- **Check AI-native cache**: Loads existing cache.bin with learned associations between technical contexts and components
 - **Research similar issues**: Searches for comparable technical contexts in already-triaged OCPBUGS using queries like:
 ```
 project = OCPBUGS AND text ~ $TECHNICAL_CONTEXT AND component != security
 ```
 - **Analyze OpenShift knowledge**: Reviews how similar technical problems were previously assigned based on OpenShift architecture understanding
 - **Validate against component descriptions**: Ensures assignments align with official component responsibilities
-- **Update AI cache**: Writes enhanced cache.bin with learned associations between technical contexts, OpenShift architecture concepts, and component responsibilities (no raw ticket content stored)
 
 ### Step 5: Claude Assigns Issues to Components
 Claude applies OpenShift knowledge-based component assignment:
@@ -58,12 +56,6 @@ Claude applies OpenShift knowledge-based component assignment:
 - **Quality metrics** and confidence levels
 - **Suggested JIRA commands** for manual execution
 
-**2. AI-Native Cache File** (`cache.bin`):
-- **Technical context associations** learned from current analysis
-- **OpenShift architecture mappings** between problems and components
-- **Confidence scores** for assignment patterns
-- **Component responsibility patterns** discovered
-- **NO raw ticket content** - only abstracted learning patterns
 
 Both files are mandatory outputs that enable analysis review and learning accumulation.
 
@@ -85,7 +77,7 @@ cat prompt.md | claude
 ### Claude's Process
 1. **Loads configuration** from prompt.md and ocpbugs_components.csv
 2. **Queries security issues**
-3. **Checks similar OCPBUGS** that have been triaged already and uses local cache
+3. **Checks similar OCPBUGS** that have been triaged already
 4. **Analyzes each issue** for component assignment
 5. **Generates HTML report** saved as `triaging_report_YYYYMMDD.html`
 6. **Outputs summary** to terminal
@@ -93,7 +85,6 @@ cat prompt.md | claude
 ### Output Files Generated (MANDATORY)
 **REQUIRED on every run:**
 - `triaging_report_YYYYMMDD.html` - Comprehensive triaging analysis report (MANDATORY)
-- `cache.bin` - AI-native associations between technical contexts, OpenShift architecture layers, and component responsibilities (MANDATORY)
 
 **Optional supporting files:**
 - `historical_assignments.txt` - Historical pattern data and research findings
@@ -105,7 +96,7 @@ Claude follows this OpenShift knowledge-based hierarchy:
 1. **OpenShift Architecture Understanding**: Analyze where the issue fits in OpenShift's technical stack
 2. **Component Responsibility Analysis**: Match issue context to official component descriptions in CSV
 3. **Technical Context Over Keywords**: Understand the underlying technical problem, not just surface keywords
-4. **Historical Pattern Validation**: Reference learned associations from AI cache for consistency
+4. **Historical Pattern Validation**: Reference previous reports for consistency
 5. **Most Specific Component**: Choose the component that directly owns the functionality
 6. **Fallback Assignment**: Use broader components only when specific assignment unclear
 
@@ -186,7 +177,6 @@ After Claude completes the automation:
 ### Performance Optimization
 - Claude processes issues in reasonable batches (typically 20-50 issues)
 - Historical pattern queries are limited to prevent performance issues
-- There is a binary file with cache with previous learnings on the disk
 
 ## Best Practices
 

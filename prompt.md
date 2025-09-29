@@ -53,14 +53,6 @@ For all untriaged issues:
    - Recommendations for process improvement
    - Suggested JIRA commands to execute for component assignments
 
-2. **Cache File** (`cache.bin`) containing:
-   - AI-native associations between technical contexts and components
-   - OpenShift architecture layer mappings
-   - Component responsibility patterns learned from analysis
-   - Confidence scores for assignment patterns
-   - NO raw ticket content - only learned associations
-
-**Note**: Both files are required outputs. The HTML report provides human-readable analysis, while cache.bin enables learning from previous triaging sessions.
 
 ## Example Analysis
 
@@ -108,8 +100,7 @@ Generate an HTML report with:
 
 Start by querying for untriaged OCPBUGS issues and analyze them for component assignment. Focus on technical accuracy and clear ownership mapping.
 
-**MANDATORY OUTPUTS**: Every triaging run MUST produce:
+**MANDATORY OUTPUT**: Every triaging run MUST produce:
 1. `triaging_report_YYYYMMDD.html` - Comprehensive analysis report
-2. `cache.bin` - AI-native learning associations for future runs
 
-Remember: Your goal is to route issues to the right engineering teams efficiently while maintaining high assignment quality and building knowledge for future triaging sessions.
+Remember: Your goal is to route issues to the right engineering teams efficiently while maintaining high assignment quality.
