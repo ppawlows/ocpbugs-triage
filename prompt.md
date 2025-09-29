@@ -25,10 +25,18 @@ jira issue list -q 'project = OCPBUGS AND status in (NEW, POST, ASSIGNED) AND co
 
 ### Step 2: Analyze Each Issue
 For each issue:
-1. Read the full issue description
-2. Identify technical keywords and error patterns
-3. Determine the affected OpenShift subsystem
-4. Map to the most appropriate component
+1. **Extract CVE ID** from issue summary if present (e.g., CVE-2024-1234)
+2. **Fetch CVE details** using WebFetch from sources like:
+   - https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-YYYY-NNNN
+   - https://nvd.nist.gov/vuln/detail/CVE-YYYY-NNNN
+3. **Analyze CVE technical details** including:
+   - Affected software components and versions
+   - Vulnerability type and attack vectors
+   - Technical description and impact
+4. Read the full issue description
+5. Identify technical keywords and error patterns from both issue and CVE
+6. Determine the affected OpenShift subsystem based on combined analysis
+7. Map to the most appropriate component
 
 ### Step 3: Check other OCPBUGS
 For all untriaged issues:
@@ -59,12 +67,13 @@ For all untriaged issues:
 ## Example Analysis
 
 **Issue:** "CVE-2025-4598 systemd: race condition allows local attacker to crash SUID program"
-**Analysis:** 
-- **Technical Context**: systemd service vulnerability affecting SUID programs and core dumps
-- **OpenShift Architecture**: systemd runs on OpenShift nodes and manages system services
+**Analysis:**
+- **CVE Research**: Fetched details from https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-4598
+- **CVE Technical Context**: systemd service vulnerability affecting SUID programs and core dumps, allows local privilege escalation
+- **OpenShift Architecture**: systemd runs on OpenShift nodes and manages system services critical to node operation
 - **Component Responsibility**: Machine Config Operator owns systemd configuration and node-level system management
 - **Component Assignment:** `Machine Config Operator`
-- **Rationale:** MCO description states it "manages and applies configuration and updates of the base operating system and container runtime; essentially everything between the kernel and kubelet" - systemd falls under this scope
+- **Rationale:** Based on CVE analysis showing systemd core functionality is affected, and MCO description states it "manages and applies configuration and updates of the base operating system and container runtime; essentially everything between the kernel and kubelet" - systemd falls under this scope
 
 **Issue:** "Container build fails with 'permission denied' in S2I process"
 **Analysis:**
@@ -96,9 +105,11 @@ Generate an HTML report with:
 2. **Issue Analysis Table** - For each issue include:
    - **Issue Key with Direct JIRA Link** (e.g., [OCPBUGS-12345](https://issues.redhat.com/browse/OCPBUGS-12345))
    - **Issue Summary** (truncated to 100 chars if needed)
+   - **CVE ID and Link** (if present, with direct link to CVE database)
+   - **CVE Summary** (brief technical description from CVE database)
    - **Current Component** (what it's assigned to now)
    - **Recommended Component** (your assignment recommendation)
-   - **Technical Rationale** (detailed explanation why this component fits)
+   - **Technical Rationale** (detailed explanation why this component fits, incorporating CVE analysis)
    - **Research Sources** (links to similar issues or queries used to inform decision)
    - **Confidence Level** (High/Medium/Low)
 3. **Research Documentation** - For each analyzed issue, document:
@@ -114,10 +125,15 @@ Generate an HTML report with:
 Start by querying for untriaged OCPBUGS issues and analyze them for component assignment. Focus on technical accuracy and clear ownership mapping.
 
 **MANDATORY RESEARCH PROCESS**: For each issue you analyze:
-1. **Document your research queries** - save all JIRA queries used to find similar issues
-2. **Record source issues** - list specific issues that informed your decision with links
-3. **Explain the connection** - clearly describe how the research sources relate to your assignment decision
-4. **Include confidence assessment** - rate your confidence based on the strength of research evidence
+1. **Extract and analyze CVE information** - if CVE ID is present in summary:
+   - Fetch CVE details from authoritative sources (MITRE, NVD)
+   - Extract affected software components and technical context
+   - Analyze vulnerability type and OpenShift architecture impact
+   - Document CVE source links used for analysis
+2. **Document your research queries** - save all JIRA queries used to find similar issues
+3. **Record source issues** - list specific issues that informed your decision with links
+4. **Explain the connection** - clearly describe how research sources and CVE analysis relate to your assignment decision
+5. **Include confidence assessment** - rate your confidence based on the strength of research evidence and CVE technical context
 
 **MANDATORY OUTPUT**: Every triaging run MUST produce:
 1. `triaging_report_YYYYMMDD.html` - Comprehensive analysis report with complete research documentation

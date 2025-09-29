@@ -24,8 +24,13 @@ This retrieves issues currently assigned to the generic "Security" component tha
 ### Step 3: Claude Analyzes Each Issue (READ-ONLY)
 For each issue found, Claude:
 1. **Reads issue details** using `jira issue view ISSUE-KEY`
-2. **Extracts technical content** from summary and description
-3. **Identifies keywords** related to OpenShift components (systemd, build, networking, etc.)
+2. **Extracts CVE ID** from issue summary if present (e.g., CVE-2024-1234)
+3. **Fetches CVE details** using WebFetch from authoritative sources:
+   - https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-YYYY-NNNN
+   - https://nvd.nist.gov/vuln/detail/CVE-YYYY-NNNN
+4. **Analyzes CVE technical context** including affected software components and vulnerability impact
+5. **Extracts technical content** from summary, description, and CVE details
+6. **Identifies keywords** related to OpenShift components (systemd, build, networking, etc.)
 
 
 ### Step 4: Claude Researches Historical Patterns (READ-ONLY)
@@ -52,13 +57,16 @@ Claude applies OpenShift knowledge-based component assignment:
 - **Executive summary** of issues processed
 - **Detailed analysis table** with current vs. recommended components including:
   - Direct JIRA links to each analyzed issue
-  - Detailed technical rationale for each assignment decision
+  - CVE ID and links to CVE database details (if present)
+  - CVE technical summary and affected components
+  - Detailed technical rationale for each assignment decision incorporating CVE analysis
   - Research sources and links to similar issues used for decision-making
-  - Confidence levels based on research evidence strength
+  - Confidence levels based on research evidence strength and CVE context
 - **Research documentation** section documenting the analysis process:
+  - CVE database sources and links used for vulnerability analysis
   - JIRA queries used to find similar historical issues
   - Links to specific source issues that informed decisions
-  - Clear explanations of how research sources relate to assignment decisions
+  - Clear explanations of how CVE analysis and research sources relate to assignment decisions
 - **Component statistics** and usage patterns
 - **Quality metrics** and confidence levels
 - **Suggested JIRA commands** for manual execution
@@ -108,13 +116,16 @@ Claude follows this OpenShift knowledge-based hierarchy:
 **Issue**: "CVE-2025-4598 systemd: race condition allows local attacker to crash SUID program"
 
 **Claude's Analysis Process**:
-1. **Technical Context Understanding**: systemd vulnerability affecting SUID programs and core dumps on OpenShift nodes
-2. **OpenShift Architecture Analysis**: systemd runs on every OpenShift node and manages system services
-3. **Component Responsibility Research**: Which component owns node-level system management in OpenShift?
-4. **CSV Component Description**: Machine Config Operator "manages and applies configuration and updates of the base operating system and container runtime; essentially everything between the kernel and kubelet"
-5. **Architecture Fit**: systemd clearly falls between kernel and kubelet in the OpenShift stack
-6. **Decision**: Assign to "Machine Config Operator"
-7. **Rationale**: "MCO owns systemd and all node-level system service management in OpenShift architecture"
+1. **CVE ID Extraction**: Identifies CVE-2025-4598 from issue summary
+2. **CVE Database Research**: Fetches details from https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-4598
+3. **CVE Technical Analysis**: systemd vulnerability affecting SUID programs and core dumps, allowing local privilege escalation
+4. **Technical Context Understanding**: systemd service vulnerability on OpenShift nodes affecting system security
+5. **OpenShift Architecture Analysis**: systemd runs on every OpenShift node and manages critical system services
+6. **Component Responsibility Research**: Which component owns node-level system management in OpenShift?
+7. **CSV Component Description**: Machine Config Operator "manages and applies configuration and updates of the base operating system and container runtime; essentially everything between the kernel and kubelet"
+8. **Architecture Fit**: CVE shows systemd clearly falls between kernel and kubelet in the OpenShift stack
+9. **Decision**: Assign to "Machine Config Operator"
+10. **Rationale**: "Based on CVE-2025-4598 analysis showing systemd core functionality vulnerability, MCO owns systemd and all node-level system service management in OpenShift architecture"
 
 ### Quality Assurance by Claude
 - **Component validation**: Ensures all suggested components exist in ocpbugs_components.csv
