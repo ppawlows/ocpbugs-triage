@@ -43,7 +43,7 @@ Claude applies OpenShift knowledge-based component assignment:
 2. **Component Responsibility Mapping**: Matches issue context to component descriptions from CSV
 3. **Avoids Simple Keyword Matching**: Goes beyond keywords to understand technical relationships
 4. **Applies Specificity Logic**: Chooses the most specific component that owns the functionality
-5. **Validates Against Cache**: Cross-references with learned patterns from previous assignments
+5. **Validates Against Historical Patterns**: Cross-references with learned patterns from previous reports
 
 ### Step 6: Claude Generates Required Files (MANDATORY)
 **HARD REQUIREMENT**: Claude MUST generate these files on every run:
@@ -57,7 +57,7 @@ Claude applies OpenShift knowledge-based component assignment:
 - **Suggested JIRA commands** for manual execution
 
 
-Both files are mandatory outputs that enable analysis review and learning accumulation.
+The HTML report is the mandatory output that enables analysis review and provides assignment recommendations.
 
 ## What Claude Does NOT Do
 
@@ -84,10 +84,7 @@ cat prompt.md | claude
 
 ### Output Files Generated (MANDATORY)
 **REQUIRED on every run:**
-- `triaging_report_YYYYMMDD.html` - Comprehensive triaging analysis report (MANDATORY)
-
-**Optional supporting files:**
-- `historical_assignments.txt` - Historical pattern data and research findings
+- `triaging_report_YYYYMMDD.html` - Comprehensive triaging analysis report with component assignments, technical rationale, and suggested JIRA commands
 
 ## Claude's Decision-Making Process
 
