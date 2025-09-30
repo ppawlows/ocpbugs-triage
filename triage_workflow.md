@@ -28,13 +28,20 @@ For each issue found, Claude:
 3. **Fetches CVE details** using WebFetch from authoritative sources:
    - https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-YYYY-NNNN
    - https://nvd.nist.gov/vuln/detail/CVE-YYYY-NNNN
-4. **Analyzes CVE technical context** including affected software components and vulnerability impact
-5. **Validates required fields** for each issue:
+4. **Fetches ALL external links** from issue description using WebFetch:
+   - All Bugzilla links (bugzilla.redhat.com URLs)
+   - All external CVE references and security advisories
+   - All upstream project links (GitHub issues, GitLab issues, etc.)
+   - Extracts additional technical context from all external sources
+5. **Analyzes CVE technical context** including affected software components and vulnerability impact
+6. **Validates required fields** for each issue:
    - Checks if Target Version field is populated
+   - If Target Version is missing, extracts suggested version from issue summary (e.g., "[openshift-4.14.z]" → suggest "4.14.z")
    - Checks if Work Type field (or Activity Type field) equals "Security & Compliance"
    - Flags issues with missing Target Version or incorrect Work Type for prominent red-background warning display
-6. **Extracts technical content** from summary, description, and CVE details
-7. **Identifies keywords** related to OpenShift components (systemd, build, networking, etc.)
+7. **Extracts technical content** from summary, description, CVE details, and all external sources
+8. **Identifies keywords** related to OpenShift components (systemd, build, networking, etc.)
+9. **Extracts component field** for product.yml mapping analysis
 
 
 ### Step 4: Claude Researches Historical Patterns (READ-ONLY)
@@ -58,23 +65,39 @@ Claude applies OpenShift knowledge-based component assignment:
 **HARD REQUIREMENT**: Claude MUST generate these files on every run:
 
 **1. HTML Triaging Report** (`triaging_report_YYYYMMDD.html`):
+- **Report style and structure** following examples in `sample reports/` directory
 - **Executive summary** of issues processed
 - **Detailed analysis table** with current vs. recommended components including:
   - **MANDATORY**: Clickable direct JIRA links to each analyzed issue (https://issues.redhat.com/browse/ISSUE-KEY)
   - **MANDATORY VALIDATION WARNINGS** (display prominently with red background if applicable):
-    - Missing Target Version: "⚠️ NO TARGET VERSION ASSIGNED"
+    - Missing Target Version: "⚠️ NO TARGET VERSION ASSIGNED - Suggested: [extracted_version]" (extract version from summary like "[openshift-4.14.z]" and suggest "4.14.z")
     - Incorrect Work Type: "⚠️ WORK TYPE IS NOT 'Security & Compliance' (current: [actual_value])"
   - **MANDATORY**: CVE ID and direct links to authoritative CVE database sources (MITRE, NVD)
-  - **MANDATORY**: Direct links to all research sources and supporting documentation
+  - **MANDATORY**: Direct links to all research sources, external links, and supporting documentation
   - CVE technical summary and affected components
-  - Detailed technical rationale for each assignment decision incorporating CVE analysis
+  - Detailed technical rationale for each assignment decision incorporating CVE analysis and external source analysis
   - Research sources and links to similar issues used for decision-making
   - Confidence levels based on research evidence strength and CVE context
 - **Research documentation** section documenting the analysis process:
   - **MANDATORY**: CVE database sources and direct links used for vulnerability analysis
+  - **MANDATORY**: All external links fetched from issue descriptions (Bugzilla, GitHub, GitLab, etc.)
   - JIRA queries used to find similar historical issues
   - **MANDATORY**: Clickable links to all specific source issues that informed decisions
   - Clear explanations of how CVE analysis and research sources relate to assignment decisions
+  - **Product.yml Mapping Recommendations** - Help prevent future manual triaging:
+   - Analyze if automatic component mapping exists in https://github.com/openshift-eng/ocp-build-data/blob/main/product.yml
+   - Suggest missing mappings in product.yml. This is the head of the file. Add new mappings to `components:`:
+     ```yaml
+     bug_mapping:
+       components:
+         component-name:
+           issue_component: Recommended JIRA Component
+     ```
+   - Example: If component is "openshift4/ose-console-rhel9" and recommended component is "Management Console", suggest adding this mapping to enable automatic assignment in future:
+     ```yaml
+         ose-console-rhel9:
+           issue_component: Management Console
+     ```
 - **Quality metrics** and confidence levels
 - **Suggested JIRA commands** for manual execution
 

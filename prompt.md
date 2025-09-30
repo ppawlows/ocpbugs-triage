@@ -29,18 +29,24 @@ For each issue:
 2. **Fetch CVE details** using WebFetch from sources like:
    - https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-YYYY-NNNN
    - https://nvd.nist.gov/vuln/detail/CVE-YYYY-NNNN
-3. **Analyze CVE technical details** including:
+3. **Fetch ALL external links** from the issue description using WebFetch:
+   - Read all Bugzilla links (bugzilla.redhat.com URLs)
+   - Read all external CVE references and security advisories
+   - Read all upstream project issue links
+   - Extract additional technical context from all external sources
+4. **Analyze CVE technical details** including:
    - Affected software components and versions
    - Vulnerability type and attack vectors
    - Technical description and impact
-4. **Validate required fields** for each issue:
+5. **Validate required fields** for each issue:
    - Check if Target Version field is populated
+   - If Target Version is missing, extract suggested version from issue summary (e.g., "[openshift-4.14.z]" → suggest "4.14.z")
    - Check if Work Type field (or Activity Type field) equals "Security & Compliance"
    - Flag issues with missing Target Version or incorrect Work Type for prominent display
-5. Read the full issue description
-6. Identify technical keywords and error patterns from both issue and CVE
-7. Determine the affected OpenShift subsystem based on combined analysis
-8. Map to the most appropriate component
+6. Read the full issue description
+7. Identify technical keywords and error patterns from both issue and CVE
+8. Determine the affected OpenShift subsystem based on combined analysis
+9. Map to the most appropriate component
 
 ### Step 3: Check other OCPBUGS
 For all untriaged issues:
@@ -105,13 +111,13 @@ For all untriaged issues:
 
 ## Output Format
 
-Generate an HTML report with:
+Generate an HTML report with style and structure similar to reports in `sample reports/` directory:
 1. **Executive Summary** - Total issues processed, component distribution
 2. **Issue Analysis Table** - For each issue include:
    - **Issue Key with Direct JIRA Link** (e.g., [OCPBUGS-12345](https://issues.redhat.com/browse/OCPBUGS-12345)) - MANDATORY clickable link
    - **Issue Summary** (truncated to 100 chars if needed)
    - **⚠️ MANDATORY VALIDATION WARNINGS** (display prominently with red background if any of these conditions are true):
-     - **Missing Target Version**: If Target Version field is empty/null, display: "⚠️ NO TARGET VERSION ASSIGNED"
+     - **Missing Target Version**: If Target Version field is empty/null, display: "⚠️ NO TARGET VERSION ASSIGNED - Suggested: [extracted_version]" (extract version from issue summary like "[openshift-4.14.z]" and suggest "4.14.z")
      - **Incorrect Work Type**: If Work Type field (or Activity Type field) has value other than "Security & Compliance", display: "⚠️ WORK TYPE IS NOT 'Security & Compliance' (current: [actual_value])"
    - **CVE ID and Link** (if present, MANDATORY direct link to CVE database like https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-YYYY-NNNN)
    - **CVE Summary** (brief technical description from CVE database)
@@ -125,6 +131,20 @@ Generate an HTML report with:
    - What JIRA queries were used to research similar cases
    - MANDATORY clickable links to all source issues that informed the decision
 4. **Quality Metrics** - Assignment confidence levels and review flags
+5. **Product.yml Mapping Recommendations** - Help prevent future manual triaging:
+   - Analyze if automatic component mapping exists in https://github.com/openshift-eng/ocp-build-data/blob/main/product.yml
+   - Suggest missing mappings in product.yml. This is the head of the file. Add new mappings to `components:`:
+     ```yaml
+     bug_mapping:
+       components:
+         component-name:
+           issue_component: Recommended JIRA Component
+     ```
+   - Example: If component is "openshift4/ose-console-rhel9" and recommended component is "Management Console", suggest adding this mapping to enable automatic assignment in future:
+     ```yaml
+         ose-console-rhel9:
+           issue_component: Management Console
+     ```
 6. **Implementation Commands** - JIRA CLI commands to apply assignments
 
 ## Begin Triaging
@@ -137,10 +157,15 @@ Start by querying for untriaged OCPBUGS issues and analyze them for component as
    - Extract affected software components and technical context
    - Analyze vulnerability type and OpenShift architecture impact
    - Document CVE source links used for analysis
-2. **Document your research queries** - save all JIRA queries used to find similar issues
-3. **Record source issues** - list specific issues that informed your decision with links
-4. **Explain the connection** - clearly describe how research sources and CVE analysis relate to your assignment decision
-5. **Include confidence assessment** - rate your confidence based on the strength of research evidence and CVE technical context
+2. **Fetch ALL external links** from issue description:
+   - Use WebFetch to read all Bugzilla links (bugzilla.redhat.com URLs)
+   - Use WebFetch to read all external CVE references and security advisories
+   - Use WebFetch to read all links (GitHub issues, GitLab issues, etc.)
+   - Extract additional technical context from ALL external sources
+3. **Document your research queries** - save all JIRA queries used to find similar issues
+4. **Record source issues** - list specific issues that informed your decision with links
+5. **Explain the connection** - clearly describe how research sources and CVE analysis relate to your assignment decision
+6. **Include confidence assessment** - rate your confidence based on the strength of research evidence and CVE technical context
 
 **MANDATORY OUTPUT**: Every triaging run MUST produce:
 1. `triaging_report_YYYYMMDD.html` - Comprehensive analysis report with complete research documentation
