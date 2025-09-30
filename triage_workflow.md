@@ -29,8 +29,12 @@ For each issue found, Claude:
    - https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-YYYY-NNNN
    - https://nvd.nist.gov/vuln/detail/CVE-YYYY-NNNN
 4. **Analyzes CVE technical context** including affected software components and vulnerability impact
-5. **Extracts technical content** from summary, description, and CVE details
-6. **Identifies keywords** related to OpenShift components (systemd, build, networking, etc.)
+5. **Validates required fields** for each issue:
+   - Checks if Target Version field is populated
+   - Checks if Work Type field (or Activity Type field) equals "Security & Compliance"
+   - Flags issues with missing Target Version or incorrect Work Type for prominent red-background warning display
+6. **Extracts technical content** from summary, description, and CVE details
+7. **Identifies keywords** related to OpenShift components (systemd, build, networking, etc.)
 
 
 ### Step 4: Claude Researches Historical Patterns (READ-ONLY)
@@ -57,6 +61,9 @@ Claude applies OpenShift knowledge-based component assignment:
 - **Executive summary** of issues processed
 - **Detailed analysis table** with current vs. recommended components including:
   - **MANDATORY**: Clickable direct JIRA links to each analyzed issue (https://issues.redhat.com/browse/ISSUE-KEY)
+  - **MANDATORY VALIDATION WARNINGS** (display prominently with red background if applicable):
+    - Missing Target Version: "⚠️ NO TARGET VERSION ASSIGNED"
+    - Incorrect Work Type: "⚠️ WORK TYPE IS NOT 'Security & Compliance' (current: [actual_value])"
   - **MANDATORY**: CVE ID and direct links to authoritative CVE database sources (MITRE, NVD)
   - **MANDATORY**: Direct links to all research sources and supporting documentation
   - CVE technical summary and affected components

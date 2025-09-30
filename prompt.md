@@ -33,10 +33,14 @@ For each issue:
    - Affected software components and versions
    - Vulnerability type and attack vectors
    - Technical description and impact
-4. Read the full issue description
-5. Identify technical keywords and error patterns from both issue and CVE
-6. Determine the affected OpenShift subsystem based on combined analysis
-7. Map to the most appropriate component
+4. **Validate required fields** for each issue:
+   - Check if Target Version field is populated
+   - Check if Work Type field (or Activity Type field) equals "Security & Compliance"
+   - Flag issues with missing Target Version or incorrect Work Type for prominent display
+5. Read the full issue description
+6. Identify technical keywords and error patterns from both issue and CVE
+7. Determine the affected OpenShift subsystem based on combined analysis
+8. Map to the most appropriate component
 
 ### Step 3: Check other OCPBUGS
 For all untriaged issues:
@@ -106,6 +110,9 @@ Generate an HTML report with:
 2. **Issue Analysis Table** - For each issue include:
    - **Issue Key with Direct JIRA Link** (e.g., [OCPBUGS-12345](https://issues.redhat.com/browse/OCPBUGS-12345)) - MANDATORY clickable link
    - **Issue Summary** (truncated to 100 chars if needed)
+   - **⚠️ MANDATORY VALIDATION WARNINGS** (display prominently with red background if any of these conditions are true):
+     - **Missing Target Version**: If Target Version field is empty/null, display: "⚠️ NO TARGET VERSION ASSIGNED"
+     - **Incorrect Work Type**: If Work Type field (or Activity Type field) has value other than "Security & Compliance", display: "⚠️ WORK TYPE IS NOT 'Security & Compliance' (current: [actual_value])"
    - **CVE ID and Link** (if present, MANDATORY direct link to CVE database like https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-YYYY-NNNN)
    - **CVE Summary** (brief technical description from CVE database)
    - **Current Component** (what it's assigned to now)
